@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>奶家人 · 安装与图标原型</title>
+<style>
+  :root {
+    --bg: #f5f5f7;
+    --panel: rgba(255,255,255,0.82);
+    --line: rgba(0,0,0,0.10);
+    --line-strong: rgba(0,0,0,0.16);
+    --text: #111113;
+    --muted: #636366;
+    --mute2: #8e8e93;
+    --accent: #007aff;
+    --accent-2: #5ac8fa;
+    --success: #34c759;
+    --warning: #ff9f0a;
+    --danger: #ff3b30;
+    --radius: 16px;
+    --radius-lg: 22px;
+    --shadow: 0 12px 40px rgba(0,0,0,.08), 0 1px 2px rgba(0,0,0,.04);
+    --font: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; min-height: 100vh;
+    font-family: var(--font);
+    color: var(--text);
+    background:
+      radial-gradient(900px 500px at 12% 0%, rgba(0,122,255,.10), transparent 55%),
+      radial-gradient(700px 400px at 92% 8%, rgba(90,200,250,.08), transparent 50%),
+      linear-gradient(180deg, #fbfbfd 0%, #f2f2f7 60%, #ebebf0 100%);
+    -webkit-font-smoothing: antialiased;
+  }
+  header.appbar {
+    display: flex; align-items: center; gap: 14px;
+    padding: 18px 28px;
+    border-bottom: 1px solid var(--line);
+    background: rgba(255,255,255,0.72);
+    backdrop-filter: saturate(180%) blur(20px);
+    -webkit-backdrop-filter: saturate(180%) blur(20px);
+  }
+  header .mark { width: 36px; height: 36px; filter: drop-shadow(0 4px 10px rgba(0,122,255,.25)); }
+  header h1 { margin: 0; font-size: 18px; font-weight: 650; letter-spacing: -0.02em; }
+  header p { margin: 0; color: var(--muted); font-size: 13px; letter-spacing: -0.01em; }
+  .layout {
+    display: grid;
+    grid-template-columns: 1.15fr .85fr;
+    gap: 24px;
+    padding: 28px;
+    max-width: 1280px;
+    margin: 0 auto;
+  }
+  @media (max-width: 960px) { .layout { grid-template-columns: 1fr; } }
+  .card {
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow);
+    backdrop-filter: saturate(180%) blur(18px);
+    -webkit-backdrop-filter: saturate(180%) blur(18px);
+    overflow: hidden;
+  }
+  .card h2 {
+    margin: 0; padding: 16px 20px;
+    font-size: 12px; font-weight: 600; letter-spacing: 0.04em;
+    text-transform: uppercase; color: var(--muted);
+    border-bottom: 1px solid var(--line);
+  }
+
+  .installer {
+    width: 100%; max-width: 720px; margin: 20px auto 28px;
+    border-radius: 18px; overflow: hidden;
+    border: 1px solid var(--line-strong);
+    background: rgba(255,255,255,0.92);
+    box-shadow: 0 20px 50px rgba(0,0,0,.08);
+  }
+  .titlebar {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 11px 14px;
+    background: rgba(248,248,250,0.95);
+    border-bottom: 1px solid var(--line);
+  }
+  .titlebar .left { display: flex; align-items: center; gap: 10px; font-size: 13px; color: var(--muted); font-weight: 500; }
+  .dots span {
+    display: inline-block; width: 10px; height: 10px; border-radius: 50%; margin-right: 6px;
+  }
+  .dots .r { background: #ff5f57; } .dots .y { background: #febc2e; } .dots .g { background: #28c840; }
+  .wizard-body { display: grid; grid-template-columns: 200px 1fr; min-height: 380px; }
+  .sidebar {
+    background:
+      linear-gradient(165deg, rgba(0,122,255,.08) 0%, rgba(90,200,250,.05) 40%, rgba(255,255,255,.6) 100%);
+    padding: 22px 16px; border-right: 1px solid var(--line);
+    position: relative; overflow: hidden;
+  }
+  .sidebar::after {
+    content: ""; position: absolute; inset: auto -30% -20% -20%; height: 160px;
+    background: radial-gradient(circle, rgba(0,122,255,.16), transparent 70%);
+    animation: pulse 3.6s ease-in-out infinite;
+  }
+  @keyframes pulse {
+    0%,100% { opacity: .45; transform: scale(1); }
+    50% { opacity: .9; transform: scale(1.08); }
+  }
+  .side-logo { width: 72px; height: 72px; margin-bottom: 14px; position: relative; z-index: 1; filter: drop-shadow(0 8px 16px rgba(0,122,255,.22)); }
+  .sidebar .brand { font-size: 20px; font-weight: 700; letter-spacing: -0.02em; position: relative; z-index: 1; }
+  .sidebar .tag { margin-top: 6px; font-size: 12px; color: var(--muted); line-height: 1.5; position: relative; z-index: 1; }
+  .steps { margin-top: 28px; display: grid; gap: 10px; position: relative; z-index: 1; }
+  .step {
+    display: flex; align-items: center; gap: 10px;
+    font-size: 12px; color: var(--mute2);
+  }
+  .step .n {
+    width: 22px; height: 22px; border-radius: 50%;
+    display: grid; place-items: center;
+    border: 1px solid var(--line-strong); font-size: 11px; font-weight: 600;
+    background: rgba(255,255,255,.8);
+  }
+  .step.active { color: var(--text); font-weight: 550; }
+  .step.active .n {
+    border-color: var(--accent); color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(0,122,255,.15);
+  }
+  .step.done .n { background: var(--accent); border-color: var(--accent); color: #fff; }
+  .main { padding: 22px 24px 16px; display: flex; flex-direction: column; }
+  .main h3 { margin: 0 0 8px; font-size: 20px; font-weight: 650; letter-spacing: -0.02em; }
+  .main .desc { margin: 0 0 18px; color: var(--muted); font-size: 13px; line-height: 1.6; }
+  .pane { flex: 1; }
+  .license {
+    height: 180px; overflow: auto; padding: 12px 14px;
+    border: 1px solid var(--line); border-radius: 12px;
+    background: rgba(245,245,247,.9); font-size: 12px; color: #3a3a3c; line-height: 1.7;
+    white-space: pre-wrap;
+  }
+  .check { display: flex; align-items: center; gap: 8px; margin-top: 12px; font-size: 13px; color: var(--text); }
+  .check input { accent-color: var(--accent); }
+  .path-row { display: flex; gap: 8px; }
+  .path-row input {
+    flex: 1; padding: 10px 12px; border-radius: 12px;
+    border: 1px solid var(--line-strong); background: #fff; color: var(--text); font-size: 13px;
+    outline: none;
+  }
+  .path-row input:focus {
+    border-color: rgba(0,122,255,.55);
+    box-shadow: 0 0 0 3px rgba(0,122,255,.16);
+  }
+  .path-row button, .footer button, .ghost {
+    border: 1px solid var(--line-strong); background: rgba(255,255,255,.95); color: var(--text);
+    border-radius: 980px; padding: 9px 16px; font-size: 13px; cursor: pointer; font-weight: 550;
+  }
+  .path-row button:hover, .footer button.ghost:hover { background: #f2f2f7; }
+  .footer {
+    display: flex; justify-content: space-between; align-items: center;
+    padding-top: 16px; margin-top: 8px; border-top: 1px solid var(--line);
+  }
+  .footer .right { display: flex; gap: 8px; }
+  .btn-primary {
+    background: var(--accent) !important;
+    border-color: transparent !important; color: #ffffff !important; font-weight: 600;
+    box-shadow: 0 1px 2px rgba(0,122,255,.25);
+  }
+  .btn-primary:hover { background: #0066d6 !important; }
+  .btn-primary:disabled { opacity: .4; cursor: not-allowed; }
+  .progress-wrap { margin-top: 28px; }
+  .bar {
+    height: 8px; border-radius: 99px; background: rgba(0,0,0,.06); overflow: hidden;
+  }
+  .bar > i {
+    display: block; height: 100%; width: 0%;
+    background: linear-gradient(90deg, var(--accent), var(--accent-2));
+    transition: width .25s ease;
+  }
+  .prog-meta { display: flex; justify-content: space-between; margin-top: 10px; font-size: 12px; color: var(--muted); }
+  .finish-box {
+    display: grid; gap: 10px; padding: 18px; border-radius: 14px;
+    border: 1px solid var(--line); background: rgba(245,245,247,.85);
+  }
+  .ok { color: var(--success); font-weight: 650; }
+
+  .icons { padding: 20px; display: grid; gap: 18px; }
+  .icon-row { display: flex; flex-wrap: wrap; gap: 18px; align-items: end; }
+  .icon-item { text-align: center; }
+  .icon-item span { display: block; margin-top: 8px; font-size: 11px; color: var(--muted); }
+  .tile {
+    display: grid; place-items: center;
+    border-radius: 22%;
+    background: #fff;
+    border: 1px solid var(--line);
+    box-shadow: 0 4px 14px rgba(0,0,0,.06);
+  }
+  .note {
+    margin: 0 20px 20px; padding: 12px 14px; border-radius: 12px;
+    background: rgba(0,122,255,.06); border: 1px solid rgba(0,122,255,.12);
+    color: var(--muted); font-size: 12px; line-height: 1.6;
+  }
+  .hidden { display: none !important; }
+</style>
+</head>
+<body>
+<header class="appbar">
+  <svg class="mark" viewBox="0 0 64 64" aria-hidden="true">
+    <rect width="64" height="64" rx="14" fill="#007aff"/>
+    <path d="M14 40c6-14 30-14 36 0" fill="none" stroke="#ffffff" stroke-width="3" stroke-linecap="round"/>
+    <circle cx="32" cy="26" r="6" fill="#ffffff"/>
+  </svg>
+  <div>
+    <h1>奶家人 · 安装原型</h1>
+    <p>安装向导（可点）+ 应用图标 · Apple 浅色毛玻璃 · 系统蓝</p>
+  </div>
+</header>
+
+<div class="layout">
+  <section class="card">
+    <h2>Windows 安装向导</h2>
+    <div class="installer">
+      <div class="titlebar">
+        <div class="left">
+          <span class="dots"><span class="r"></span><span class="y"></span><span class="g"></span></span>
+          奶家人 安装程序
+        </div>
+        <div style="font-size:12px;color:var(--muted)">v1.3.5</div>
+      </div>
+      <div class="wizard-body">
+        <aside class="sidebar">
+          <svg class="side-logo" viewBox="0 0 64 64">
+            <rect width="64" height="64" rx="14" fill="#007aff"/>
+            <path d="M14 40c6-14 30-14 36 0" fill="none" stroke="#ffffff" stroke-width="3" stroke-linecap="round"/>
+            <circle cx="32" cy="26" r="6" fill="#ffffff"/>
+          </svg>
+          <div class="brand">奶家人</div>
+          <div class="tag">软硬件同步的环境监测数字孪生控制台</div>
+          <div class="steps" id="stepList"></div>
+        </aside>
+        <div class="main">
+          <div class="pane" data-step="0">
+            <h3>欢迎安装奶家人</h3>
+            <p class="desc">面向 Windows 的环境监测桌面端：实时传感器、三维孪生与设备联动。安装前请确认本机有管理员权限。</p>
+            <div class="finish-box">
+              <div>产品：奶家人</div>
+              <div>平台：Windows 10/11 x64</div>
+              <div>默认目录：C:\Program Files\奶家人</div>
+            </div>
+          </div>
+          <div class="pane hidden" data-step="1">
+            <h3>许可协议</h3>
+            <p class="desc">请阅读以下条款。勾选同意后方可继续。</p>
+            <div class="license" id="licenseText">奶家人 最终用户许可协议（草案）
+
+1. 授权范围：本软件仅供被授权组织在内部业务中使用。
+2. 设备联动：通过 MQTT 下发的指令可能控制现场继电器等执行器，请由授权人员操作。
+3. 数据：传感器与操作日志的处理遵循贵方隐私与安全策略。
+4. 免责：演示 Broker / 未签名安装包不得用于生产环境。
+5. 更新：正式版将通过签名通道分发更新。
+
+（正式文本将由法务替换本草案。）</div>
+            <label class="check"><input type="checkbox" id="agree" /> 我已阅读并同意许可协议</label>
+          </div>
+          <div class="pane hidden" data-step="2">
+            <h3>选择安装位置</h3>
+            <p class="desc">可修改安装路径。建议保留默认目录以便权限与更新正常。</p>
+            <div class="path-row">
+              <input id="path" value="C:\Program Files\奶家人" />
+              <button type="button" class="ghost" id="browseBtn">浏览…</button>
+            </div>
+            <p class="desc" style="margin-top:14px">所需空间：约 180 MB　可用空间：模拟 42 GB</p>
+          </div>
+          <div class="pane hidden" data-step="3">
+            <h3>正在安装</h3>
+            <p class="desc" id="progDesc">正在写入文件…</p>
+            <div class="progress-wrap">
+              <div class="bar"><i id="barFill"></i></div>
+              <div class="prog-meta"><span id="progStep">准备环境</span><span id="progPct">0%</span></div>
+            </div>
+          </div>
+          <div class="pane hidden" data-step="4">
+            <h3 class="ok">安装完成</h3>
+            <p class="desc">奶家人已就绪。你可以立即启动或稍后再开。</p>
+            <div class="finish-box">
+              <label class="check"><input type="checkbox" id="runNow" checked /> 立即运行奶家人</label>
+              <label class="check"><input type="checkbox" id="desktop" checked /> 创建桌面快捷方式</label>
+            </div>
+          </div>
+
+          <div class="footer">
+            <button type="button" id="btnBack" class="ghost">上一步</button>
+            <div class="right">
+              <button type="button" id="btnCancel" class="ghost">取消</button>
+              <button type="button" id="btnNext" class="btn-primary">下一步</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="card">
+    <h2>应用图标</h2>
+    <div class="icons">
+      <div class="icon-row" id="iconSizes"></div>
+    </div>
+    <p class="note">系统蓝圆角标 + 白色传感波形。安装向导、开机动画与登录页统一浅色毛玻璃与 SF 字体栈。点左侧向导可体验协议勾选、路径与动态进度。</p>
+  </section>
+</div>
+
+<script>
+const steps = ['欢迎','许可协议','安装路径','安装中','完成'];
+const stepList = document.getElementById('stepList');
+steps.forEach((t,i)=>{
+  const d=document.createElement('div');
+  d.className='step'+(i===0?' active':'');
+  d.innerHTML=`<span class="n">${i+1}</span><span>${t}</span>`;
+  stepList.appendChild(d);
+});
+
+let cur=0, installing=false;
+const panes=[...document.querySelectorAll('.pane')];
+const btnBack=document.getElementById('btnBack');
+const btnNext=document.getElementById('btnNext');
+const agree=document.getElementById('agree');
+
+function render(){
+  panes.forEach(p=>p.classList.toggle('hidden', +p.dataset.step!==cur));
+  [...stepList.children].forEach((el,i)=>{
+    el.classList.toggle('active', i===cur);
+    el.classList.toggle('done', i<cur);
+  });
+  btnBack.disabled = cur===0 || installing;
+  btnBack.style.opacity = btnBack.disabled?.4:1;
+  if(cur===1){ btnNext.disabled=!agree.checked; btnNext.textContent='下一步'; }
+  else if(cur===3){ btnNext.disabled=true; btnNext.textContent='安装中…'; }
+  else if(cur===4){ btnNext.disabled=false; btnNext.textContent='完成'; }
+  else { btnNext.disabled=false; btnNext.textContent= cur===2?'安装':'下一步'; }
+}
+agree.addEventListener('change', render);
+
+btnBack.onclick=()=>{ if(cur>0 && !installing){ cur--; render(); } };
+btnNext.onclick=()=>{
+  if(cur===4){ alert('原型：此处将启动应用 / 关闭安装程序'); return; }
+  if(cur===2){ startInstall(); return; }
+  if(cur<4){ cur++; render(); }
+};
+document.getElementById('browseBtn').onclick=()=>{
+  const v=prompt('模拟选择文件夹', document.getElementById('path').value);
+  if(v) document.getElementById('path').value=v;
+};
+document.getElementById('btnCancel').onclick=()=>{
+  if(confirm('确定取消安装？（原型）')) cur=0, render();
+};
+
+function startInstall(){
+  cur=3; installing=true; render();
+  const msgs=['准备环境','解压运行时','写入程序文件','注册快捷方式','收尾清理'];
+  let pct=0, i=0;
+  const bar=document.getElementById('barFill');
+  const timer=setInterval(()=>{
+    pct=Math.min(100, pct+4);
+    bar.style.width=pct+'%';
+    document.getElementById('progPct').textContent=pct+'%';
+    if(pct> i*20 && i<msgs.length){ document.getElementById('progStep').textContent=msgs[i]; document.getElementById('progDesc').textContent='正在'+msgs[i]+'…'; i++; }
+    if(pct>=100){ clearInterval(timer); installing=false; cur=4; render(); }
+  }, 120);
+}
+
+const sizes=[16,24,32,48,64,128,256];
+const row=document.getElementById('iconSizes');
+const svgIcon=`<svg viewBox="0 0 64 64" width="100%" height="100%"><rect width="64" height="64" rx="14" fill="#007aff"/><path d="M14 40c6-14 30-14 36 0" fill="none" stroke="#ffffff" stroke-width="3" stroke-linecap="round"/><circle cx="32" cy="26" r="6" fill="#ffffff"/></svg>`;
+sizes.forEach(s=>{
+  const item=document.createElement('div');
+  item.className='icon-item';
+  const tile=document.createElement('div');
+  tile.className='tile';
+  tile.style.width=tile.style.height=Math.max(s,28)+'px';
+  tile.innerHTML=svgIcon;
+  item.appendChild(tile);
+  const lab=document.createElement('span');
+  lab.textContent=s+'×'+s;
+  item.appendChild(lab);
+  row.appendChild(item);
+});
+render();
+</script>
+</body>
+</html>

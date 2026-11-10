@@ -1,0 +1,94 @@
+{
+  "productName": "环境监测",
+  "productId": "naijiaren",
+  "version": "1.3.10",
+  "mode": "demo",
+  "broker": {
+    "demoUrl": "mqtt://broker.emqx.io:1883",
+    "allowedHosts": [
+      "broker.emqx.io",
+      "localhost",
+      "127.0.0.1"
+    ],
+    "requireTlsInProduction": true,
+    "allowedSchemesDemo": [
+      "mqtt",
+      "mqtts",
+      "ws",
+      "wss"
+    ],
+    "allowedSchemesProduction": [
+      "mqtts",
+      "wss"
+    ]
+  },
+  "topics": {
+    "sensor": "device/stm32/sensor_data",
+    "command": "device/stm32/commands"
+  },
+  "allowedCommands": [
+    "buzzer:on",
+    "buzzer:off",
+    "breath:on",
+    "breath:off",
+    "fan:on",
+    "fan:off",
+    "skin:industrial-dark",
+    "skin:mist-blue",
+    "skin:soft-home",
+    "skin:ops-cyan"
+  ],
+  "dataTimeoutMs": 8000,
+  "thresholds": {
+    "tempMin": 18,
+    "tempMax": 28,
+    "humidityMin": 40,
+    "humidityMax": 70,
+    "aqi": 100
+  },
+  "skins": [
+    {
+      "id": "industrial-dark",
+      "name": "工业深色",
+      "desc": "硬件屏 LVGL 风格 · 深色半透明双卡（默认，无校徽）"
+    },
+    {
+      "id": "mist-blue",
+      "name": "雾蓝静谧",
+      "desc": "硬件屏 LVGL 风格 · 雾蓝深色"
+    },
+    {
+      "id": "soft-home",
+      "name": "柔和家居",
+      "desc": "硬件屏 LVGL 风格 · 暖中性色，成熟家用（非卡通）"
+    },
+    {
+      "id": "ops-cyan",
+      "name": "运维青金",
+      "desc": "硬件屏 LVGL 风格 · 青/金监控，强调 AQI/告警"
+    }
+  ],
+  "scenes": [
+    {
+      "id": "main-glb",
+      "name": "设备",
+      "file": "model.glb",
+      "kind": "glb",
+      "caption": ""
+    }
+  ],
+  "auth": {
+    "demoUsers": [
+      {
+        "username": "operator",
+        "password": "naijia2026",
+        "role": "operator"
+      },
+      {
+        "username": "admin",
+        "password": "admin2026",
+        "role": "admin"
+      }
+    ]
+  }
+}
