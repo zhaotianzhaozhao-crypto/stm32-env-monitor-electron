@@ -119,6 +119,10 @@
           :tx-options="txOptions"
           :hw-actuators="hwActuators"
           :alarm-active="alarmActive"
+          :temp="temp"
+          :humidity="humidity"
+          :active="activePanel === 2"
+          :encoder-pulse="encoderPulse"
           @send-command="onSendDeviceCommand"
         />
 
@@ -511,6 +515,7 @@ const {
   humidity,
   aqi,
   btnState,
+  encoderPulse,
   lastRxAt,
   packetCount,
   hwActuators,

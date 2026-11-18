@@ -81,6 +81,8 @@ export function useSensorData(engineRef, addLog, pushSample, getRxEntries) {
   const humidity = ref('--');
   const aqi = ref('--');
   const btnState = ref('未触发');
+  /** 每次 CW +1、CCW -1。重复同向也会变，供设备轮盘跟手。不新增协议字段。 */
+  const encoderPulse = ref(0);
   /** 按解析键缓存的最近值（含自定义键） */
   const channelValues = ref({});
 
@@ -176,8 +178,13 @@ export function useSensorData(engineRef, addLog, pushSample, getRxEntries) {
       addLog?.(`【硬件交互】EC11 旋钮: ${data.btn}`);
 
       const engine = engineRef.value;
-      if (data.btn === 'CW') engine?.rotateKnob?.(1);
-      else engine?.rotateKnob?.(-1);
+      if (data.btn === 'CW') {
+        engine?.rotateKnob?.(1);
+        encoderPulse.value += 1;
+      } else {
+        engine?.rotateKnob?.(-1);
+        encoderPulse.value -= 1;
+      }
 
       if (btnResetTimer) clearTimeout(btnResetTimer);
       btnResetTimer = setTimeout(() => {
@@ -254,6 +261,7 @@ export function useSensorData(engineRef, addLog, pushSample, getRxEntries) {
     humidity,
     aqi,
     btnState,
+    encoderPulse,
     channelValues,
     lastRxAt,
     packetCount,
